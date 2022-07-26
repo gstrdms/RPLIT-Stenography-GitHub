@@ -1,7 +1,15 @@
 import base64
 
 import png
+
+PROMPT = """
+Welcome to basic steganography. Please choose:
  
+1. To encode a message into an image
+2. To decode an image into a message
+q. To exit
+"""
+
 ENDOFMESSAGE = "0100100101010101010101100100111101010010010001010011100101000111010101000101010101010110010101000101010100110000010001100100100001010010010100110100010100111101"
  
 def encode_message_as_bytestring(message):
@@ -57,3 +65,28 @@ def decode_pixels(pixels):
     bytestring = ''.join(bytestring)
     message = decode_message_from_bytestring(bytestring)
     return message
+
+def main():
+    print(PROMPT)
+    user_inp = ""
+    while user_inp not in ("1", "2", "q"):
+        user_inp = input("Your choice: ")
+    
+    if user_inp == "1":
+        in_image = input("Please enter filename of existing PNG image: ")
+        in_message = input("Please enter the message to encode: ")
+ 
+        print("-ENCODING-")
+        pixels = get_pixels_from_image(in_image)
+        bytestring = encode_message_as_bytestring(in_message)
+        epixels = encode_pixels_with_message(pixels, bytestring)
+        write_pixels_to_image(epixels, in_image + "-enc.png")
+ 
+    elif user_inp == "2":
+        in_image = input("Please enter the filename of an existing PNG image: ")
+        print("-DECODING-")
+        pixels = get_pixels_from_image(in_image)
+        print(decode_pixels(pixels))
+ 
+if __name__ == "__main__":
+    main()
