@@ -42,3 +42,9 @@ def encode_pixels_with_message(pixels, bytestring):
 
 def write_pixels_to_image(pixels, fname):
     png.from_array(pixels, 'RGB').save(fname)
+
+def decode_message_from_bytestring(bytestring):
+    bytestring = bytestring.split(ENDOFMESSAGE)[0]
+    message = int(bytestring, 2).to_bytes(len(bytestring) // 8, byteorder='big')
+    message = base64.decodebytes(message).decode("utf8")
+    return message
