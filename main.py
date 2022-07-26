@@ -48,3 +48,12 @@ def decode_message_from_bytestring(bytestring):
     message = int(bytestring, 2).to_bytes(len(bytestring) // 8, byteorder='big')
     message = base64.decodebytes(message).decode("utf8")
     return message
+
+def decode_pixels(pixels):
+    bytestring = []
+    for row in pixels:
+        for c in row:
+            bytestring.append(str(c % 2))
+    bytestring = ''.join(bytestring)
+    message = decode_message_from_bytestring(bytestring)
+    return message
