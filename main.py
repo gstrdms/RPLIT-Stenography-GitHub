@@ -39,3 +39,6 @@ def encode_pixels_with_message(pixels, bytestring):
  
         enc_pixels.append(enc_row)
     return enc_pixels
+
+def write_pixels_to_image(pixels, fname):
+    png.from_array(pixels, 'RGB').save(fname)
