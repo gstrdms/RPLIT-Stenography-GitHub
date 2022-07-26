@@ -15,3 +15,27 @@ def get_pixels_from_image(fname):
     img = png.Reader(fname).read()
     pixels = img[2]
     return pixels
+
+def encode_pixels_with_message(pixels, bytestring):
+    '''modifies pixels to encode the contents from bytestring'''
+ 
+    enc_pixels = []
+    string_i = 0
+    for row in pixels:
+        enc_row = []
+        for i, char in enumerate(row):
+            if string_i >= len(bytestring):
+                pixel = row[i]
+            else:
+                if row[i] % 2 != int(bytestring[string_i]):
+                    if row[i] == 0:
+                        pixel = 1
+                    else:
+                        pixel = row[i] - 1
+                else:
+                    pixel = row[i]
+            enc_row.append(pixel)
+            string_i += 1
+ 
+        enc_pixels.append(enc_row)
+    return enc_pixels
